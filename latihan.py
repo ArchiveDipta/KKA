@@ -1,91 +1,58 @@
-a=3
-print(type(a))
-print("hello world")
+# 8–10. Impor library
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-b=4.5
+# 11. Baca dataset nilai_siswa.csv
+data = pd.read_csv('nilai_siswa.csv')
 
-nama="sinta"
-print(type(nama))
+# 16–17. Tampilkan Informasi Dataset
+print("=== Informasi Dataset ===")
+data.info()
 
-angka=[1,2,3,4,5]
-print(type(angka))
+# 18–19. Tampilkan 5 data pertama
+print("\n=== 5 Data Pertama ===")
+print(data.head())
 
-angka.append(6)
-print(angka)
+# 20–21. Statistik deskriptif
+print("\n=== Statistik Deskriptif ===")
+print(data.describe())
 
+# 22–25. Rata-rata, median, modus nilai
+print("\n=== Statistik Nilai ===")
+print("Rata-rata:", data['Nilai'].mean())
+print("Median:", data['Nilai'].median())
+print("Modus:", data['Nilai'].mode()[0])
 
-# cast from str to int
-str_numbers = "456"
-str_numbers_to_int = int(str_numbers)
-print("Before casting :", str_numbers, ", the data type is",
-type(str_numbers))
-print("After casting :", str_numbers_to_int, ", the data type is",
-type(str_numbers_to_int))
+# 26–29. Nilai per mata pelajaran
+print("\n=== Nilai per Mata Pelajaran ===")
+for mapel in data['Matpel'].unique():
+    print(f"\n--- {mapel} ---")
+    print(data[data['Matpel'] == mapel])
 
-# casting from int to str
-integer = 12345
-integer_to_str = str(integer)
-print("Before casting :", integer, ", the data type is", type(integer))
-print("After casting :", integer_to_str, ", the data type is",
-type(integer_to_str))
+# 30–31. Nilai maksimum dan minimum per mapel
+print("\n=== Nilai Maksimum dan Minimum per Mapel ===")
+print(data.groupby('Matpel')['Nilai'].agg(['max', 'min']))
 
-# casting from int to bool
-num_int = 1
-num_bool = bool(num_int)
-print(num_bool, type(num_bool))
-num_int = 0
-num_bool = bool(num_int)
-print(num_bool, type(num_bool))
+# 32–38. Grafik batang rata-rata nilai per mapel
+print("\n=== Grafik Rata-Rata Nilai per Mapel ===")
+rata = data.groupby('Matpel')['Nilai'].mean()
+rata.plot(kind='bar', color='skyblue', edgecolor='black')
+plt.title('Rata-Rata Nilai per Mata Pelajaran')
+plt.xlabel('Mata Pelajaran')
+plt.ylabel('Nilai Rata-Rata')
+plt.tight_layout()
+plt.show()
 
+# 39–42. Boxplot sebaran nilai
+print("\n=== Boxplot Sebaran Nilai per Mata Pelajaran ===")
+sns.boxplot(x='Matpel', y='Nilai', data=data, palette='Set2')
+plt.title('Sebaran Nilai per Mata Pelajaran')
+plt.tight_layout()
+plt.show()
 
-# Equal to
-8 == 8
-# Not equal to
-8 != 9
-# Greater than
-8 > 9
-# Less than
-8 < 9
-# Less than
-8 <= 9
-# Less than
-9 >= 9
-
-a = True
-b = True
-print(a and b)
-print(a or b)
-print(not b)
-#logic
-5 > 6 and 6 < 7
-
-
-e = 8
-f = 2
-# Summation
-sum = e + f
-print(f"The sum of e with f is : {sum}\n")
-# Reduction
-red = e - f
-print(f"The reduction of e with f is : {red}\n")
-
-# Multiplication
-multi = e * f
-print(f"The multipication of e with f is : {multi}\n")
-# Division
-divi = e / f
-print(f"The quotient of e with f is : {divi}\n")
-# Modulo
-mod = e % f
-print(f"The remainder of e with f is : {mod}\n")
-# Power
-pow = e ** f
-print(f"The power of e of f is : {pow}\n")
-
-
-#Input
-name = str(input("What is your name : "))
-age = int(input("What's your age : "))
-print("Name: ", name)
-print("Age: ", age)
-
+# 43. Kesimpulan sederhana
+print("\n=== Kesimpulan ===")
+print("• Grafik batang menunjukkan perbandingan rata-rata nilai antar mata pelajaran.")
+print("• Boxplot memperlihatkan sebaran nilai dan kemungkinan outlier di tiap mapel.")
+print("• Dari grafik, kamu bisa lihat mata pelajaran dengan nilai tertinggi dan terendah.")
